@@ -1,0 +1,11 @@
+:host {
+  display: block;
+}
+
+.upload-button {
+  color: pink;
+}
+
+.file-input {
+  display: none;
+}
