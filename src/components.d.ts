@@ -7,12 +7,12 @@
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
 export namespace Components {
     interface BcJsonFileInput {
-        /**
-          * Render the parsed JSON in a `div` below the button
-          * @type {boolean}
-          * @memberof BcJsonFileInput
-         */
+        "objectToConsole": boolean;
         "previewJson": boolean;
+    }
+    interface BcJsonPreview {
+        "jsonString": string;
+        "objectToConsole": boolean;
     }
     interface MyComponent {
         /**
@@ -36,6 +36,12 @@ declare global {
         prototype: HTMLBcJsonFileInputElement;
         new (): HTMLBcJsonFileInputElement;
     };
+    interface HTMLBcJsonPreviewElement extends Components.BcJsonPreview, HTMLStencilElement {
+    }
+    var HTMLBcJsonPreviewElement: {
+        prototype: HTMLBcJsonPreviewElement;
+        new (): HTMLBcJsonPreviewElement;
+    };
     interface HTMLMyComponentElement extends Components.MyComponent, HTMLStencilElement {
     }
     var HTMLMyComponentElement: {
@@ -44,24 +50,19 @@ declare global {
     };
     interface HTMLElementTagNameMap {
         "bc-json-file-input": HTMLBcJsonFileInputElement;
+        "bc-json-preview": HTMLBcJsonPreviewElement;
         "my-component": HTMLMyComponentElement;
     }
 }
 declare namespace LocalJSX {
     interface BcJsonFileInput {
-        /**
-          * Emits the parsed contents of the JSON file
-          * @type {EventEmitter<any>}
-          * @memberof BcJsonFileInput
-          * @see https://stenciljs.com/docs/events#event-decorator
-         */
-        "onJsonParsed"?: (event: CustomEvent<any>) => void;
-        /**
-          * Render the parsed JSON in a `div` below the button
-          * @type {boolean}
-          * @memberof BcJsonFileInput
-         */
+        "objectToConsole"?: boolean;
+        "onJsonLoad"?: (event: CustomEvent<string>) => void;
         "previewJson"?: boolean;
+    }
+    interface BcJsonPreview {
+        "jsonString"?: string;
+        "objectToConsole"?: boolean;
     }
     interface MyComponent {
         /**
@@ -79,6 +80,7 @@ declare namespace LocalJSX {
     }
     interface IntrinsicElements {
         "bc-json-file-input": BcJsonFileInput;
+        "bc-json-preview": BcJsonPreview;
         "my-component": MyComponent;
     }
 }
@@ -87,6 +89,7 @@ declare module "@stencil/core" {
     export namespace JSX {
         interface IntrinsicElements {
             "bc-json-file-input": LocalJSX.BcJsonFileInput & JSXBase.HTMLAttributes<HTMLBcJsonFileInputElement>;
+            "bc-json-preview": LocalJSX.BcJsonPreview & JSXBase.HTMLAttributes<HTMLBcJsonPreviewElement>;
             "my-component": LocalJSX.MyComponent & JSXBase.HTMLAttributes<HTMLMyComponentElement>;
         }
     }

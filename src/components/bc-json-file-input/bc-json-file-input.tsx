@@ -6,7 +6,13 @@ import {
     h,
     Host,
     Prop,
+    State,
 } from "@stencil/core";
+
+/* 
+    Notes:
+    @see https://reactjs.org/docs/handling-events.html#passing-arguments-to-event-handlers
+*/
 
 const FILE_TYPE = "application/json";
 
@@ -16,26 +22,19 @@ const FILE_TYPE = "application/json";
     shadow: true,
 })
 export class BcJsonFileInput implements ComponentInterface {
-    /**
-     * Emits the parsed contents of the JSON file
-     *
-     * @type {EventEmitter<any>}
-     * @memberof BcJsonFileInput
-     * @see https://stenciljs.com/docs/events#event-decorator
-     */
-    @Event() jsonParsed: EventEmitter<any>;
+    @Prop() previewJson: boolean = false;
 
-    /**
-     * Render the parsed JSON in a `div` below the button
-     *
-     * @type {boolean}
-     * @memberof BcJsonFileInput
-     */
-    @Prop() previewJson: boolean = true;
+    @Prop({
+        attribute: "console-log",
+    })
+    objectToConsole: boolean = false;
+
+    @State() jsonString: string;
+
+    @Event() jsonLoad: EventEmitter<string>;
 
     private inputElement: HTMLInputElement;
 
-    // @see https://reactjs.org/docs/handling-events.html#passing-arguments-to-event-handlers
     handleButtonClick = () => {
         this.inputElement.click();
     };
@@ -48,8 +47,8 @@ export class BcJsonFileInput implements ComponentInterface {
         const reader = new FileReader();
         reader.addEventListener("load", (ev) => {
             const json = ev.target.result as string;
-            const parsed = JSON.parse(json);
-            this.jsonParsed.emit(parsed);
+            this.jsonString = json;
+            this.jsonLoad.emit(json);
         });
         reader.readAsText(file);
     };
@@ -71,6 +70,12 @@ export class BcJsonFileInput implements ComponentInterface {
                     }}
                     onChange={this.handleInputChange}
                 />
+                {this.previewJson && (
+                    <bc-json-preview
+                        jsonString={this.jsonString}
+                        objectToConsole={this.objectToConsole}
+                    ></bc-json-preview>
+                )}
             </Host>
         );
     }
