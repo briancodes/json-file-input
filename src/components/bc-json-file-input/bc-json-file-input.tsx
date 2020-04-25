@@ -15,12 +15,12 @@ const FILE_TYPE = "application/json";
   shadow: true,
 })
 export class BcJsonFileInput implements ComponentInterface {
-  // @see https://stenciljs.com/docs/events#event-decorator
   /**
    * Emits the parsed contents of the JSON file
    *
    * @type {EventEmitter<any>}
    * @memberof BcJsonFileInput
+   * @see https://stenciljs.com/docs/events#event-decorator
    */
   @Event() jsonParsed: EventEmitter<any>;
 
