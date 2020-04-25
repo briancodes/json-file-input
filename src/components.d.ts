@@ -6,6 +6,8 @@
  */
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
 export namespace Components {
+    interface BcJsonFileInput {
+    }
     interface MyComponent {
         /**
           * The first name
@@ -22,6 +24,12 @@ export namespace Components {
     }
 }
 declare global {
+    interface HTMLBcJsonFileInputElement extends Components.BcJsonFileInput, HTMLStencilElement {
+    }
+    var HTMLBcJsonFileInputElement: {
+        prototype: HTMLBcJsonFileInputElement;
+        new (): HTMLBcJsonFileInputElement;
+    };
     interface HTMLMyComponentElement extends Components.MyComponent, HTMLStencilElement {
     }
     var HTMLMyComponentElement: {
@@ -29,10 +37,19 @@ declare global {
         new (): HTMLMyComponentElement;
     };
     interface HTMLElementTagNameMap {
+        "bc-json-file-input": HTMLBcJsonFileInputElement;
         "my-component": HTMLMyComponentElement;
     }
 }
 declare namespace LocalJSX {
+    interface BcJsonFileInput {
+        /**
+          * Emits the parsed contents of the JSON file
+          * @type {EventEmitter<any>}
+          * @memberof BcJsonFileInput
+         */
+        "onJsonParsed"?: (event: CustomEvent<any>) => void;
+    }
     interface MyComponent {
         /**
           * The first name
@@ -48,6 +65,7 @@ declare namespace LocalJSX {
         "middle"?: string;
     }
     interface IntrinsicElements {
+        "bc-json-file-input": BcJsonFileInput;
         "my-component": MyComponent;
     }
 }
@@ -55,6 +73,7 @@ export { LocalJSX as JSX };
 declare module "@stencil/core" {
     export namespace JSX {
         interface IntrinsicElements {
+            "bc-json-file-input": LocalJSX.BcJsonFileInput & JSXBase.HTMLAttributes<HTMLBcJsonFileInputElement>;
             "my-component": LocalJSX.MyComponent & JSXBase.HTMLAttributes<HTMLMyComponentElement>;
         }
     }
