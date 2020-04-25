@@ -1,5 +1,5 @@
 {
-    "name": "json-file-input",
+    "name": "@bcodes/json-file-input",
     "version": "0.0.1",
     "description": "Stencil Component Starter",
     "main": "dist/index.js",
