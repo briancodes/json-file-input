@@ -7,6 +7,12 @@
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
 export namespace Components {
     interface BcJsonFileInput {
+        /**
+          * Render the parsed JSON in a `div` below the button
+          * @type {boolean}
+          * @memberof BcJsonFileInput
+         */
+        "previewJson": boolean;
     }
     interface MyComponent {
         /**
@@ -50,6 +56,12 @@ declare namespace LocalJSX {
           * @see https://stenciljs.com/docs/events#event-decorator
          */
         "onJsonParsed"?: (event: CustomEvent<any>) => void;
+        /**
+          * Render the parsed JSON in a `div` below the button
+          * @type {boolean}
+          * @memberof BcJsonFileInput
+         */
+        "previewJson"?: boolean;
     }
     interface MyComponent {
         /**

@@ -5,6 +5,7 @@ import {
   EventEmitter,
   h,
   Host,
+  Prop,
 } from "@stencil/core";
 
 const FILE_TYPE = "application/json";
@@ -24,26 +25,30 @@ export class BcJsonFileInput implements ComponentInterface {
    */
   @Event() jsonParsed: EventEmitter<any>;
 
+  /**
+   * Render the parsed JSON in a `div` below the button
+   *
+   * @type {boolean}
+   * @memberof BcJsonFileInput
+   */
+  @Prop() previewJson: boolean = true;
+
   private inputElement: HTMLInputElement;
 
   // @see https://reactjs.org/docs/handling-events.html#passing-arguments-to-event-handlers
-  handleButtonClick = (event: MouseEvent) => {
-    console.log(event, "inupt element: ", this.inputElement);
+  handleButtonClick = () => {
     this.inputElement.click();
   };
 
   handleInputChange = () => {
-    console.log("handle input change");
     const file = this.inputElement.files[0] as File;
     if (!file || file.type !== FILE_TYPE) {
-      console.warn("JSON file type only");
       return;
     }
     const reader = new FileReader();
     reader.addEventListener("load", (ev) => {
       const json = ev.target.result as string;
       const parsed = JSON.parse(json);
-      console.log("Input loaded");
       this.jsonParsed.emit(parsed);
     });
     reader.readAsText(file);
@@ -53,7 +58,9 @@ export class BcJsonFileInput implements ComponentInterface {
     return (
       <Host>
         <button class="upload-button" onClick={this.handleButtonClick}>
-          <slot name="button-text">Upload File</slot>
+          <slot>
+            <span>Upload File</span>
+          </slot>
         </button>
         <input
           class="file-input"
