@@ -24,8 +24,8 @@
             // Bubbles is true by default
             document
                 .querySelector("bc-json-file-input")
-                .addEventListener("jsonLoad", (ev) => {
-                    console.log("index -> json handler", ev);
+                .addEventListener("jsonLoaded", (ev) => {
+                    console.log("index -> event handler", ev);
                 });
         </script>
     </body>

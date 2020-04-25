@@ -16,6 +16,11 @@ import {
 
 const FILE_TYPE = "application/json";
 
+export interface IFileDetail {
+    fileName: string;
+    json: string;
+}
+
 @Component({
     tag: "bc-json-file-input",
     styleUrl: "bc-json-file-input.css",
@@ -29,9 +34,9 @@ export class BcJsonFileInput implements ComponentInterface {
     })
     objectToConsole: boolean = false;
 
-    @State() jsonString: string;
+    @State() jsonFileDetails: IFileDetail;
 
-    @Event() jsonLoad: EventEmitter<string>;
+    @Event() jsonLoaded: EventEmitter<IFileDetail>;
 
     private inputElement: HTMLInputElement;
 
@@ -47,8 +52,11 @@ export class BcJsonFileInput implements ComponentInterface {
         const reader = new FileReader();
         reader.addEventListener("load", (ev) => {
             const json = ev.target.result as string;
-            this.jsonString = json;
-            this.jsonLoad.emit(json);
+            this.jsonFileDetails = {
+                fileName: file.name,
+                json,
+            };
+            this.jsonLoaded.emit(this.jsonFileDetails);
         });
         reader.readAsText(file);
     };
@@ -72,7 +80,7 @@ export class BcJsonFileInput implements ComponentInterface {
                 />
                 {this.previewJson && (
                     <bc-json-preview
-                        jsonString={this.jsonString}
+                        jsonFileDetails={this.jsonFileDetails}
                         objectToConsole={this.objectToConsole}
                     ></bc-json-preview>
                 )}

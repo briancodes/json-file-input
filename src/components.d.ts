@@ -5,13 +5,15 @@
  * It contains typing information for all components that exist in this project.
  */
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
+import { IFileDetail, } from "./components/bc-json-file-input/bc-json-file-input";
+import { IFileDetail as IFileDetail1, } from "./components/bc-json-file-input/bc-json-file-input";
 export namespace Components {
     interface BcJsonFileInput {
         "objectToConsole": boolean;
         "previewJson": boolean;
     }
     interface BcJsonPreview {
-        "jsonString": string;
+        "jsonFileDetails": IFileDetail;
         "objectToConsole": boolean;
     }
     interface MyComponent {
@@ -57,11 +59,11 @@ declare global {
 declare namespace LocalJSX {
     interface BcJsonFileInput {
         "objectToConsole"?: boolean;
-        "onJsonLoad"?: (event: CustomEvent<string>) => void;
+        "onJsonLoaded"?: (event: CustomEvent<IFileDetail>) => void;
         "previewJson"?: boolean;
     }
     interface BcJsonPreview {
-        "jsonString"?: string;
+        "jsonFileDetails"?: IFileDetail;
         "objectToConsole"?: boolean;
     }
     interface MyComponent {
