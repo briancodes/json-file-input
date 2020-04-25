@@ -47,6 +47,7 @@ declare namespace LocalJSX {
           * Emits the parsed contents of the JSON file
           * @type {EventEmitter<any>}
           * @memberof BcJsonFileInput
+          * @see https://stenciljs.com/docs/events#event-decorator
          */
         "onJsonParsed"?: (event: CustomEvent<any>) => void;
     }

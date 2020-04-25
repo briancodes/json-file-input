@@ -21,8 +21,9 @@
       <span slot="button-text">Upload File Slot</span>
     </bc-json-file-input>
     <script>
+      // Bubbles is true by default
       document
-        .querySelector("bc-json-file-input")
+        //.querySelector("bc-json-file-input")
         .addEventListener("jsonParsed", (ev) => {
           console.log("index -> json handler", ev.detail);
         });
