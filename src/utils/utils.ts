@@ -17,13 +17,27 @@ export const processJsonFiles = (files: File[]): Promise<IPreviewData[]> => {
         isLoading: true,
     }));
 
-    const updatePreviewFile = (key: string, content: string, error = false) => {
+    const updatePreviewFile = (
+        fileName: string,
+        content: string,
+        error = false
+    ) => {
         // Map the data to update and preserve file ordering
         previewList = previewList.map((data) => {
-            if (data.fileName === key) {
+            if (data.fileName === fileName) {
+                let prettyContent: string;
+                try {
+                    prettyContent = JSON.stringify(
+                        JSON.parse(content),
+                        null,
+                        2
+                    );
+                } catch {
+                    prettyContent = content;
+                }
                 return {
                     ...data,
-                    content,
+                    content: prettyContent,
                     error,
                     isLoading: false,
                 };
@@ -43,7 +57,7 @@ export const processJsonFiles = (files: File[]): Promise<IPreviewData[]> => {
             const reader = new FileReader();
             reader.addEventListener("loadend", ({ target }) => {
                 updatePreviewFile(file.name, target.result as string);
-                if (previewList.every((file) => !file.isLoading)) {
+                if (previewList.every((item) => !item.isLoading)) {
                     resolve(previewList);
                 }
             });

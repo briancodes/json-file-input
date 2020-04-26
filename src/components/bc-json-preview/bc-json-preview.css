@@ -1,7 +1,25 @@
-.preview-pane {
-    white-space: pre;
+details {
+    width: 100%;
+    font-family: sans-serif;
 }
 
-details > summary {
+summary {
     cursor: pointer;
+    padding: 3px;
+}
+
+summary.error {
+    color: rgb(121, 19, 19);
+}
+
+.preview-pane {
+    background-color: #212020;
+    color: #40c64c;
+    white-space: pre;
+    font-size: 0.9em;
+    overflow-x: auto;
+    margin: 0;
+    padding: 0.5em;
+    border-bottom: 0.5px solid #cececec4;
+    border-radius: 3px;
 }

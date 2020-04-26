@@ -58,7 +58,9 @@ export class BcJsonPreview implements ComponentInterface {
                         {this.previewList.map((data) => {
                             return (
                                 <details open={false}>
-                                    <summary>{data.fileName}</summary>
+                                    <summary class={{ error: data.error }}>
+                                        {data.fileName}
+                                    </summary>
                                     <div class="preview-pane">
                                         {data.content || ""}
                                     </div>
