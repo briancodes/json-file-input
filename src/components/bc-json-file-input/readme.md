@@ -9,15 +9,17 @@
 
 | Property          | Attribute      | Description | Type      | Default |
 | ----------------- | -------------- | ----------- | --------- | ------- |
+| `multiple`        | `multiple`     |             | `boolean` | `false` |
 | `objectToConsole` | `console-log`  |             | `boolean` | `false` |
 | `previewJson`     | `preview-json` |             | `boolean` | `false` |
 
 
 ## Events
 
-| Event        | Description | Type                       |
-| ------------ | ----------- | -------------------------- |
-| `jsonLoaded` |             | `CustomEvent<IFileDetail>` |
+| Event         | Description                                                | Type                          |
+| ------------- | ---------------------------------------------------------- | ----------------------------- |
+| `filesLoaded` | Event emitted when files have been loaded                  | `CustomEvent<File[]>`         |
+| `filesRead`   | Event emitted when files have been read (using FileReader) | `CustomEvent<IPreviewData[]>` |
 
 
 ## Dependencies

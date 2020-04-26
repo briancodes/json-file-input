@@ -7,10 +7,10 @@
 
 ## Properties
 
-| Property          | Attribute           | Description | Type          | Default     |
-| ----------------- | ------------------- | ----------- | ------------- | ----------- |
-| `jsonFileDetails` | --                  |             | `IFileDetail` | `undefined` |
-| `objectToConsole` | `object-to-console` |             | `boolean`     | `false`     |
+| Property          | Attribute           | Description | Type                      | Default     |
+| ----------------- | ------------------- | ----------- | ------------------------- | ----------- |
+| `objectToConsole` | `object-to-console` |             | `boolean`                 | `false`     |
+| `previewList`     | --                  |             | `readonly IPreviewData[]` | `undefined` |
 
 
 ## Dependencies

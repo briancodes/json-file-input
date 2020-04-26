@@ -41,8 +41,20 @@ export class BcJsonFileInput implements ComponentInterface {
 
     @State() previewList: ReadonlyArray<IPreviewData>;
 
+    /**
+     * Event emitted when files have been loaded
+     *
+     * @type {EventEmitter<File[]>}
+     * @memberof BcJsonFileInput
+     */
     @Event() filesLoaded: EventEmitter<File[]>;
 
+    /**
+     * Event emitted when files have been read (using FileReader)
+     *
+     * @type {EventEmitter<IPreviewData[]>}
+     * @memberof BcJsonFileInput
+     */
     @Event() filesRead: EventEmitter<IPreviewData[]>;
 
     private inputElement: HTMLInputElement;
