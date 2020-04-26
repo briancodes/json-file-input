@@ -1,3 +1,7 @@
 .preview-pane {
     white-space: pre;
 }
+
+details > summary {
+    cursor: pointer;
+}

@@ -6,7 +6,14 @@ import {
     Prop,
     Watch,
 } from "@stencil/core";
-import { IFileDetail } from "../bc-json-file-input/bc-json-file-input";
+import { IPreviewData } from "../bc-json-file-input/bc-json-file-input";
+
+/*
+    Notes:
+    https://stenciljs.com/docs/component-lifecycle#componentwillload-
+    https://developer.mozilla.org/en-US/docs/Web/API/FileReader/loadend_event
+    https://stenciljs.com/docs/templating-jsx#loops
+*/
 
 @Component({
     tag: "bc-json-preview",
@@ -14,28 +21,50 @@ import { IFileDetail } from "../bc-json-file-input/bc-json-file-input";
     shadow: true,
 })
 export class BcJsonPreview implements ComponentInterface {
-    @Prop() jsonFileDetails: IFileDetail;
+    @Prop() previewList: ReadonlyArray<IPreviewData>;
 
     @Prop() objectToConsole: boolean = false;
 
-    @Watch("jsonFileDetails")
-    fileDetailsChanged(newValue: IFileDetail) {
-        if (this.objectToConsole && newValue) {
-            console.log(JSON.parse(newValue.json));
+    // Note: not called on first init+render
+    // Use in conjuction with componentWillLoad
+    @Watch("previewList")
+    previewListChanged() {
+        this.logToConsole();
+    }
+
+    // Similar to Angular's ngOnInit, called once on first init
+    componentWillLoad() {
+        this.logToConsole();
+    }
+
+    private logToConsole() {
+        if (this.previewList && this.objectToConsole) {
+            this.previewList.forEach((item) => {
+                try {
+                    const obj = JSON.parse(item.content);
+                    console.log(obj);
+                } catch (err) {
+                    console.warn("Problem parsing " + item.fileName, err);
+                }
+            });
         }
     }
 
     render() {
         return (
             <Host>
-                {this.jsonFileDetails && (
+                {this.previewList && (
                     <div class="preview-container">
-                        <div class="file-name">
-                            {this.jsonFileDetails?.fileName}
-                        </div>
-                        <div class="preview-pane">
-                            {this.jsonFileDetails?.json}
-                        </div>
+                        {this.previewList.map((data) => {
+                            return (
+                                <details open={false}>
+                                    <summary>{data.fileName}</summary>
+                                    <div class="preview-pane">
+                                        {data.content || ""}
+                                    </div>
+                                </details>
+                            );
+                        })}
                     </div>
                 )}
             </Host>

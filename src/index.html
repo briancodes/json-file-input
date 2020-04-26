@@ -17,15 +17,21 @@
             last="'Don't call me a framework' JS"
         ></my-component>
 
-        <bc-json-file-input preview-json console-log>
-            <span>Upload JSON File</span>
+        <bc-json-file-input multiple preview-json console-log>
+            <span>Upload JSON Files</span>
         </bc-json-file-input>
         <script>
             // Bubbles is true by default
             document
                 .querySelector("bc-json-file-input")
-                .addEventListener("jsonLoaded", (ev) => {
-                    console.log("index -> event handler", ev);
+                .addEventListener("filesLoaded", (ev) => {
+                    console.log("filesLoaded Handler", ev.detail);
+                });
+
+            document
+                .querySelector("bc-json-file-input")
+                .addEventListener("filesRead", (ev) => {
+                    console.log("filesRead Handler", ev.detail);
                 });
         </script>
     </body>

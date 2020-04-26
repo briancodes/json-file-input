@@ -5,16 +5,17 @@
  * It contains typing information for all components that exist in this project.
  */
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
-import { IFileDetail, } from "./components/bc-json-file-input/bc-json-file-input";
-import { IFileDetail as IFileDetail1, } from "./components/bc-json-file-input/bc-json-file-input";
+import { IPreviewData, } from "./components/bc-json-file-input/bc-json-file-input";
+import { IPreviewData as IPreviewData1, } from "./components/bc-json-file-input/bc-json-file-input";
 export namespace Components {
     interface BcJsonFileInput {
+        "multiple": boolean;
         "objectToConsole": boolean;
         "previewJson": boolean;
     }
     interface BcJsonPreview {
-        "jsonFileDetails": IFileDetail;
         "objectToConsole": boolean;
+        "previewList": ReadonlyArray<IPreviewData>;
     }
     interface MyComponent {
         /**
@@ -58,13 +59,15 @@ declare global {
 }
 declare namespace LocalJSX {
     interface BcJsonFileInput {
+        "multiple"?: boolean;
         "objectToConsole"?: boolean;
-        "onJsonLoaded"?: (event: CustomEvent<IFileDetail>) => void;
+        "onFilesLoaded"?: (event: CustomEvent<File[]>) => void;
+        "onFilesRead"?: (event: CustomEvent<IPreviewData[]>) => void;
         "previewJson"?: boolean;
     }
     interface BcJsonPreview {
-        "jsonFileDetails"?: IFileDetail;
         "objectToConsole"?: boolean;
+        "previewList"?: ReadonlyArray<IPreviewData>;
     }
     interface MyComponent {
         /**

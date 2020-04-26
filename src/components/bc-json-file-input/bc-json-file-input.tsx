@@ -8,17 +8,18 @@ import {
     Prop,
     State,
 } from "@stencil/core";
+import { processJsonFiles } from "../../utils/utils";
 
 /* 
     Notes:
     @see https://reactjs.org/docs/handling-events.html#passing-arguments-to-event-handlers
 */
 
-const FILE_TYPE = "application/json";
-
-export interface IFileDetail {
+export interface IPreviewData {
     fileName: string;
-    json: string;
+    content: string;
+    error: boolean;
+    isLoading?: boolean;
 }
 
 @Component({
@@ -34,9 +35,15 @@ export class BcJsonFileInput implements ComponentInterface {
     })
     objectToConsole: boolean = false;
 
-    @State() jsonFileDetails: IFileDetail;
+    @Prop() multiple: boolean = false;
 
-    @Event() jsonLoaded: EventEmitter<IFileDetail>;
+    @State() files: File[];
+
+    @State() previewList: ReadonlyArray<IPreviewData>;
+
+    @Event() filesLoaded: EventEmitter<File[]>;
+
+    @Event() filesRead: EventEmitter<IPreviewData[]>;
 
     private inputElement: HTMLInputElement;
 
@@ -45,20 +52,15 @@ export class BcJsonFileInput implements ComponentInterface {
     };
 
     handleInputChange = () => {
-        const file = this.inputElement.files[0] as File;
-        if (!file || file.type !== FILE_TYPE) {
-            return;
-        }
-        const reader = new FileReader();
-        reader.addEventListener("load", (ev) => {
-            const json = ev.target.result as string;
-            this.jsonFileDetails = {
-                fileName: file.name,
-                json,
-            };
-            this.jsonLoaded.emit(this.jsonFileDetails);
+        const fileList: FileList = this.inputElement.files;
+        if (!fileList || !fileList.length) return;
+        this.files = Array.from(fileList);
+        this.filesLoaded.emit(this.files);
+
+        processJsonFiles(this.files).then((result) => {
+            this.previewList = result;
+            this.filesRead.emit(result);
         });
-        reader.readAsText(file);
     };
 
     render() {
@@ -73,14 +75,15 @@ export class BcJsonFileInput implements ComponentInterface {
                     class="file-input"
                     type="file"
                     accept=".json"
+                    multiple={this.multiple}
                     ref={(el) => {
                         this.inputElement = el;
                     }}
                     onChange={this.handleInputChange}
                 />
-                {this.previewJson && (
+                {this.previewJson && this.files && this.previewList && (
                     <bc-json-preview
-                        jsonFileDetails={this.jsonFileDetails}
+                        previewList={this.previewList}
                         objectToConsole={this.objectToConsole}
                     ></bc-json-preview>
                 )}
