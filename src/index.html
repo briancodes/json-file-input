@@ -1,32 +1,38 @@
 <!DOCTYPE html>
 <html dir="ltr" lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=5.0"
-    />
-    <title>Stencil Component Starter</title>
+    <head>
+        <meta charset="utf-8" />
+        <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=5.0"
+        />
+        <title>Stencil Component Starter</title>
 
-    <script type="module" src="/build/json-file-input.esm.js"></script>
-    <script nomodule src="/build/json-file-input.js"></script>
-  </head>
-  <body>
-    <my-component
-      first="Stencil"
-      last="'Don't call me a framework' JS"
-    ></my-component>
+        <script type="module" src="/build/json-file-input.esm.js"></script>
+        <script nomodule src="/build/json-file-input.js"></script>
+    </head>
+    <body>
+        <my-component
+            first="Stencil"
+            last="'Don't call me a framework' JS"
+        ></my-component>
 
-    <bc-json-file-input onjsonparsed="console.log('html output')">
-      <span>Upload JSON File</span>
-    </bc-json-file-input>
-    <script>
-      // Bubbles is true by default
-      document
-        //.querySelector("bc-json-file-input")
-        .addEventListener("jsonParsed", (ev) => {
-          console.log("index -> json handler", ev.detail);
-        });
-    </script>
-  </body>
+        <bc-json-file-input multiple preview-json console-log>
+            <span>Upload JSON Files</span>
+        </bc-json-file-input>
+        <script>
+            // Bubbles is true by default
+            document
+                .querySelector("bc-json-file-input")
+                .addEventListener("filesLoaded", (ev) => {
+                    console.log("filesLoaded Handler", ev.detail);
+                });
+
+            document
+                .querySelector("bc-json-file-input")
+                .addEventListener("filesRead", (ev) => {
+                    console.log("filesRead Handler", ev.detail);
+                });
+        </script>
+    </body>
 </html>

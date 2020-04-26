@@ -1,77 +1,105 @@
 import {
-  Component,
-  ComponentInterface,
-  Event,
-  EventEmitter,
-  h,
-  Host,
-  Prop,
+    Component,
+    ComponentInterface,
+    Event,
+    EventEmitter,
+    h,
+    Host,
+    Prop,
+    State,
 } from "@stencil/core";
+import { processJsonFiles } from "../../utils/utils";
 
-const FILE_TYPE = "application/json";
+/* 
+    Notes:
+    @see https://reactjs.org/docs/handling-events.html#passing-arguments-to-event-handlers
+*/
+
+export interface IPreviewData {
+    fileName: string;
+    content: string;
+    error: boolean;
+    isLoading?: boolean;
+}
 
 @Component({
-  tag: "bc-json-file-input",
-  styleUrl: "bc-json-file-input.css",
-  shadow: true,
+    tag: "bc-json-file-input",
+    styleUrl: "bc-json-file-input.css",
+    shadow: true,
 })
 export class BcJsonFileInput implements ComponentInterface {
-  /**
-   * Emits the parsed contents of the JSON file
-   *
-   * @type {EventEmitter<any>}
-   * @memberof BcJsonFileInput
-   * @see https://stenciljs.com/docs/events#event-decorator
-   */
-  @Event() jsonParsed: EventEmitter<any>;
+    @Prop() previewJson: boolean = false;
 
-  /**
-   * Render the parsed JSON in a `div` below the button
-   *
-   * @type {boolean}
-   * @memberof BcJsonFileInput
-   */
-  @Prop() previewJson: boolean = true;
+    @Prop({
+        attribute: "console-log",
+    })
+    objectToConsole: boolean = false;
 
-  private inputElement: HTMLInputElement;
+    @Prop() multiple: boolean = false;
 
-  // @see https://reactjs.org/docs/handling-events.html#passing-arguments-to-event-handlers
-  handleButtonClick = () => {
-    this.inputElement.click();
-  };
+    @State() files: File[];
 
-  handleInputChange = () => {
-    const file = this.inputElement.files[0] as File;
-    if (!file || file.type !== FILE_TYPE) {
-      return;
+    @State() previewList: ReadonlyArray<IPreviewData>;
+
+    /**
+     * Event emitted when files have been loaded
+     *
+     * @type {EventEmitter<File[]>}
+     * @memberof BcJsonFileInput
+     */
+    @Event() filesLoaded: EventEmitter<File[]>;
+
+    /**
+     * Event emitted when files have been read (using FileReader)
+     *
+     * @type {EventEmitter<IPreviewData[]>}
+     * @memberof BcJsonFileInput
+     */
+    @Event() filesRead: EventEmitter<IPreviewData[]>;
+
+    private inputElement: HTMLInputElement;
+
+    handleButtonClick = () => {
+        this.inputElement.click();
+    };
+
+    handleInputChange = () => {
+        const fileList: FileList = this.inputElement.files;
+        if (!fileList || !fileList.length) return;
+        this.files = Array.from(fileList);
+        this.filesLoaded.emit(this.files);
+
+        processJsonFiles(this.files).then((result) => {
+            this.previewList = result;
+            this.filesRead.emit(result);
+        });
+    };
+
+    render() {
+        return (
+            <Host>
+                <button class="upload-button" onClick={this.handleButtonClick}>
+                    <slot>
+                        <span>Upload File</span>
+                    </slot>
+                </button>
+                <input
+                    class="file-input"
+                    type="file"
+                    accept=".json"
+                    multiple={this.multiple}
+                    ref={(el) => {
+                        this.inputElement = el;
+                    }}
+                    onChange={this.handleInputChange}
+                />
+                {this.previewJson && this.files && this.previewList && (
+                    <bc-json-preview
+                        previewList={this.previewList}
+                        objectToConsole={this.objectToConsole}
+                    ></bc-json-preview>
+                )}
+            </Host>
+        );
     }
-    const reader = new FileReader();
-    reader.addEventListener("load", (ev) => {
-      const json = ev.target.result as string;
-      const parsed = JSON.parse(json);
-      this.jsonParsed.emit(parsed);
-    });
-    reader.readAsText(file);
-  };
-
-  render() {
-    return (
-      <Host>
-        <button class="upload-button" onClick={this.handleButtonClick}>
-          <slot>
-            <span>Upload File</span>
-          </slot>
-        </button>
-        <input
-          class="file-input"
-          type="file"
-          accept=".json"
-          ref={(el) => {
-            this.inputElement = el;
-          }}
-          onChange={this.handleInputChange}
-        />
-      </Host>
-    );
-  }
 }
