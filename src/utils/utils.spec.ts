@@ -1,5 +1,11 @@
 import { format } from "./utils";
 
+/* 
+    Jest FileReader Mock
+    - https://github.com/Shopify/quilt/issues/303
+    Jest General Mocks
+    - https://jestjs.io/docs/en/jest-object#jestspyonobject-methodname
+*/
 describe("format", () => {
     it("returns empty string for no names defined", () => {
         expect(format(undefined, undefined, undefined)).toEqual("");
