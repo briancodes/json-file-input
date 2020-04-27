@@ -12,7 +12,15 @@ import { processJsonFiles } from "../../utils/utils";
 
 /* 
     Notes:
-    @see https://reactjs.org/docs/handling-events.html#passing-arguments-to-event-handlers
+    
+    React event handlers
+    - https://reactjs.org/docs/handling-events.html#passing-arguments-to-event-handlers
+
+    5 Ways to Style React Components in 2020
+    - https://blog.bitsrc.io/5-ways-to-style-react-components-in-2019-30f1ccc2b5b
+
+    Stencil Styling Shadowed DOM
+    - https://medium.com/stencil-tricks/a-practical-introduction-to-styling-a-shadow-dom-and-slots-879565a2f423
 */
 
 export interface IPreviewData {
