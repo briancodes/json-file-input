@@ -8,7 +8,7 @@ import {
     Prop,
     State,
 } from "@stencil/core";
-import { processJsonFiles } from "../../utils/utils";
+import { JsonFileProcessor } from "../../utils/utils";
 
 /* 
     Notes:
@@ -63,7 +63,7 @@ export class BcJsonFileInput implements ComponentInterface {
      * @type {EventEmitter<IPreviewData[]>}
      * @memberof BcJsonFileInput
      */
-    @Event() filesRead: EventEmitter<IPreviewData[]>;
+    @Event() filesRead: EventEmitter<ReadonlyArray<IPreviewData>>;
 
     private inputElement: HTMLInputElement;
 
@@ -77,7 +77,8 @@ export class BcJsonFileInput implements ComponentInterface {
         this.files = Array.from(fileList);
         this.filesLoaded.emit(this.files);
 
-        processJsonFiles(this.files).then((result) => {
+        const fileProcessor = new JsonFileProcessor();
+        fileProcessor.process(this.files).then((result) => {
             this.previewList = result;
             this.filesRead.emit(result);
         });
@@ -86,11 +87,11 @@ export class BcJsonFileInput implements ComponentInterface {
     render() {
         return (
             <Host>
-                <button class="upload-button" onClick={this.handleButtonClick}>
+                <div class="click-container" onClick={this.handleButtonClick}>
                     <slot>
-                        <span>Upload File</span>
+                        <button>Upload File</button>
                     </slot>
-                </button>
+                </div>
                 <input
                     class="file-input"
                     type="file"

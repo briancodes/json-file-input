@@ -51,7 +51,7 @@ declare namespace LocalJSX {
           * @type {EventEmitter<IPreviewData[]>}
           * @memberof BcJsonFileInput
          */
-        "onFilesRead"?: (event: CustomEvent<IPreviewData[]>) => void;
+        "onFilesRead"?: (event: CustomEvent<ReadonlyArray<IPreviewData>>) => void;
         "previewJson"?: boolean;
     }
     interface BcJsonPreview {

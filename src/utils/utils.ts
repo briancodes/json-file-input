@@ -1,30 +1,56 @@
 import { IPreviewData } from "../components/bc-json-file-input/bc-json-file-input";
 
-export function format(first: string, middle: string, last: string): string {
-    return (
-        (first || "") + (middle ? ` ${middle}` : "") + (last ? ` ${last}` : "")
-    );
-}
+export class JsonFileProcessor {
+    private readonly JSON_FILE_TYPE = "application/json";
+    private files: ReadonlyArray<File>;
+    private previewList: ReadonlyArray<IPreviewData>;
 
-export const processJsonFiles = (files: File[]): Promise<IPreviewData[]> => {
-    const JSON_FILE_TYPE = "application/json";
+    constructor() {}
 
-    // Init the preview list
-    let previewList: IPreviewData[] = files.map((file) => ({
-        fileName: file.name,
-        content: "",
-        error: false,
-        isLoading: true,
-    }));
+    process(files: File[]): Promise<ReadonlyArray<IPreviewData>> {
+        this.initFiles(files);
+        return new Promise((resolve) => {
+            // read files and async update the preview list
+            this.files.forEach((file) => {
+                // Check if file can be processed
+                if (file.type !== this.JSON_FILE_TYPE) {
+                    this.updatePreviewFile(
+                        file.name,
+                        "Error: json files only",
+                        true
+                    );
+                    if (this.isProcessingComplete) resolve(this.previewList);
+                    return;
+                }
 
-    const updatePreviewFile = (
-        fileName: string,
-        content: string,
-        error = false
-    ) => {
+                const reader = new FileReader();
+                reader.addEventListener("loadend", ({ target }) => {
+                    this.updatePreviewFile(file.name, target.result as string);
+                    if (this.isProcessingComplete) resolve(this.previewList);
+                });
+                reader.readAsText(file);
+            });
+        });
+    }
+
+    private get isProcessingComplete() {
+        return this.previewList.every((item) => !item.isLoading);
+    }
+
+    private initFiles(files: File[]) {
+        this.files = files;
+        this.previewList = files.map((file) => ({
+            fileName: file.name,
+            content: "",
+            error: false,
+            isLoading: true,
+        }));
+    }
+
+    private updatePreviewFile(name: string, content: string, error = false) {
         // Map the data to update and preserve file ordering
-        previewList = previewList.map((data) => {
-            if (data.fileName === fileName) {
+        this.previewList = this.previewList.map((data) => {
+            if (data.fileName === name) {
                 let prettyContent: string;
                 try {
                     prettyContent = JSON.stringify(
@@ -45,23 +71,5 @@ export const processJsonFiles = (files: File[]): Promise<IPreviewData[]> => {
                 return data;
             }
         });
-    };
-
-    return new Promise((resolve) => {
-        // read files and async update the preview list
-        files.forEach((file) => {
-            if (file.type !== JSON_FILE_TYPE) {
-                updatePreviewFile(file.name, "Error: json files only", true);
-                return;
-            }
-            const reader = new FileReader();
-            reader.addEventListener("loadend", ({ target }) => {
-                updatePreviewFile(file.name, target.result as string);
-                if (previewList.every((item) => !item.isLoading)) {
-                    resolve(previewList);
-                }
-            });
-            reader.readAsText(file);
-        });
-    });
-};
+    }
+}

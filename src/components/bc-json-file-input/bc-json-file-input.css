@@ -2,6 +2,10 @@
     display: block;
 }
 
+.click-container {
+    display: inline-block;
+}
+
 .file-input {
     display: none;
 }
