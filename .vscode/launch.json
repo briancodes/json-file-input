@@ -1,0 +1,38 @@
+{
+    // Configurations from Stencil Docs didn't work https://stenciljs.com/docs/testing-overview
+    // Used the following instead:
+    // https://dev.to/pr3tori4n/a-guide-on-debugging-tests-in-stencil-age
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "E2E Test Current File",
+            "cwd": "${workspaceFolder}",
+            "program": "${workspaceFolder}/node_modules/.bin/stencil",
+            "args": ["test", "--e2e", "${relativeFile}"],
+            "console": "integratedTerminal",
+            "internalConsoleOptions": "neverOpen",
+            "disableOptimisticBPs": true,
+            "windows": {
+                "program": "${workspaceFolder}/node_modules/@stencil/core/bin/stencil"
+            }
+        },
+        {
+            // Note offical guide uses 'relativeFile' not 'fileBasename',
+            // and doesn't have 'windows' prop
+            "type": "node",
+            "request": "launch",
+            "name": "Spec Test Current File",
+            "cwd": "${workspaceFolder}",
+            "program": "${workspaceFolder}/node_modules/.bin/stencil",
+            "args": ["test", "--spec", "${fileBasename}"],
+            "console": "integratedTerminal",
+            "internalConsoleOptions": "neverOpen",
+            "disableOptimisticBPs": true,
+            "windows": {
+                "program": "${workspaceFolder}/node_modules/@stencil/core/bin/stencil"
+            }
+        }
+    ]
+}
