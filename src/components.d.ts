@@ -17,20 +17,6 @@ export namespace Components {
         "objectToConsole": boolean;
         "previewList": ReadonlyArray<IPreviewData>;
     }
-    interface MyComponent {
-        /**
-          * The first name
-         */
-        "first": string;
-        /**
-          * The last name
-         */
-        "last": string;
-        /**
-          * The middle name
-         */
-        "middle": string;
-    }
 }
 declare global {
     interface HTMLBcJsonFileInputElement extends Components.BcJsonFileInput, HTMLStencilElement {
@@ -45,16 +31,9 @@ declare global {
         prototype: HTMLBcJsonPreviewElement;
         new (): HTMLBcJsonPreviewElement;
     };
-    interface HTMLMyComponentElement extends Components.MyComponent, HTMLStencilElement {
-    }
-    var HTMLMyComponentElement: {
-        prototype: HTMLMyComponentElement;
-        new (): HTMLMyComponentElement;
-    };
     interface HTMLElementTagNameMap {
         "bc-json-file-input": HTMLBcJsonFileInputElement;
         "bc-json-preview": HTMLBcJsonPreviewElement;
-        "my-component": HTMLMyComponentElement;
     }
 }
 declare namespace LocalJSX {
@@ -72,31 +51,16 @@ declare namespace LocalJSX {
           * @type {EventEmitter<IPreviewData[]>}
           * @memberof BcJsonFileInput
          */
-        "onFilesRead"?: (event: CustomEvent<IPreviewData[]>) => void;
+        "onFilesRead"?: (event: CustomEvent<ReadonlyArray<IPreviewData>>) => void;
         "previewJson"?: boolean;
     }
     interface BcJsonPreview {
         "objectToConsole"?: boolean;
         "previewList"?: ReadonlyArray<IPreviewData>;
     }
-    interface MyComponent {
-        /**
-          * The first name
-         */
-        "first"?: string;
-        /**
-          * The last name
-         */
-        "last"?: string;
-        /**
-          * The middle name
-         */
-        "middle"?: string;
-    }
     interface IntrinsicElements {
         "bc-json-file-input": BcJsonFileInput;
         "bc-json-preview": BcJsonPreview;
-        "my-component": MyComponent;
     }
 }
 export { LocalJSX as JSX };
@@ -105,7 +69,6 @@ declare module "@stencil/core" {
         interface IntrinsicElements {
             "bc-json-file-input": LocalJSX.BcJsonFileInput & JSXBase.HTMLAttributes<HTMLBcJsonFileInputElement>;
             "bc-json-preview": LocalJSX.BcJsonPreview & JSXBase.HTMLAttributes<HTMLBcJsonPreviewElement>;
-            "my-component": LocalJSX.MyComponent & JSXBase.HTMLAttributes<HTMLMyComponentElement>;
         }
     }
 }

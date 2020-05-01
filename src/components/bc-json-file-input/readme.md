@@ -1,6 +1,17 @@
 # bc-json-file-input
 
+#### Example Usage
 
+```
+<bc-json-file-input multiple preview-json>
+    <!-- Any element can be used in place of a button -->
+    <button>Upload Files</button>
+</bc-json-file-input>
+```
+
+#### Styling
+
+The *slotted* element (`<button>` in the example above) is outside of the Shadow DOM and can be styled externally
 
 <!-- Auto Generated Below -->
 
@@ -16,10 +27,10 @@
 
 ## Events
 
-| Event         | Description                                                | Type                          |
-| ------------- | ---------------------------------------------------------- | ----------------------------- |
-| `filesLoaded` | Event emitted when files have been loaded                  | `CustomEvent<File[]>`         |
-| `filesRead`   | Event emitted when files have been read (using FileReader) | `CustomEvent<IPreviewData[]>` |
+| Event         | Description                                                | Type                                   |
+| ------------- | ---------------------------------------------------------- | -------------------------------------- |
+| `filesLoaded` | Event emitted when files have been loaded                  | `CustomEvent<File[]>`                  |
+| `filesRead`   | Event emitted when files have been read (using FileReader) | `CustomEvent<readonly IPreviewData[]>` |
 
 
 ## Dependencies
