@@ -89,7 +89,7 @@ export class BcJsonFileInput implements ComponentInterface {
             <Host>
                 <div class="click-container" onClick={this.handleButtonClick}>
                     <slot>
-                        <button>Upload File</button>
+                        <button>Upload Files</button>
                     </slot>
                 </div>
                 <input
