@@ -4,27 +4,30 @@ import { JsonFileProcessor } from "./utils";
     Stencil Unit Testing
     - https://medium.com/@tally_b/unit-testing-stenciljs-1-0-c4e902a4e63c
 
-    Manual Mocks - import mock before the file to be tested
+    Jest Manual Mocks
     - https://jestjs.io/docs/en/manual-mocks#mocking-methods-which-are-not-implemented-in-jsdom
 */
 
 type FileWithResult = Partial<File> & { result: string };
 
-const generateFiles = (count, type = "application/json"): FileWithResult[] => {
+export const generateFiles = (
+    count,
+    type = "application/json"
+): FileWithResult[] => {
     if (count <= 0) return [];
     return new Array(count).fill(0).map((_, index) => {
         const file: FileWithResult = {
             name: "" + index,
             type,
             result: JSON.stringify({
-                name: "" + index,
+                id: index,
             }),
         };
         return file;
     });
 };
 
-const createMockFileReader = (files: FileWithResult[]) => {
+export const createMockFileReader = (files: FileWithResult[]) => {
     class MockFileReader {
         private callback: Function;
 
@@ -55,11 +58,16 @@ describe("JsonFileProcessor", () => {
         (global as any).FileReader = originalFileReader;
     });
 
-    it("todo", async () => {
+    it("reads and processes the files", async () => {
         const files = generateFiles(3);
         (global as any).FileReader = createMockFileReader(files) as any;
         const processor = new JsonFileProcessor();
         const result = await processor.process(files as File[]);
         expect(result.length).toBe(3);
+        result.forEach((file, index) => {
+            expect(file.fileName).toEqual("" + index);
+            const parsedContent = JSON.parse(file.content);
+            expect(parsedContent.id).toEqual(index);
+        });
     });
 });
