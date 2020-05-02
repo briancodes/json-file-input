@@ -1,7 +1,8 @@
 {
     "name": "@bcodes/json-file-input",
     "version": "0.0.1",
-    "description": "Stencil Component Starter",
+    "author": "briancodes",
+    "description": "Stencil Component",
     "main": "dist/index.js",
     "module": "dist/index.mjs",
     "es2015": "dist/esm/index.mjs",
@@ -37,5 +38,11 @@
         "type": "git",
         "url": "https://github.com/briancodes/json-file-input.git"
     },
+    "keywords": [
+        "angular",
+        "stenciljs",
+        "json",
+        "input"
+    ],
     "private": false
 }
