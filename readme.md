@@ -2,6 +2,8 @@
 
 #### Example Usage
 
+`npm install @bcodes/json-file-input --save`
+
 ```
 <bc-json-file-input multiple preview-json>
     <!-- Any element can be used in place of a button -->
