@@ -7,10 +7,10 @@
 
 ## Properties
 
-| Property          | Attribute           | Description | Type                      | Default     |
-| ----------------- | ------------------- | ----------- | ------------------------- | ----------- |
-| `objectToConsole` | `object-to-console` |             | `boolean`                 | `false`     |
-| `previewList`     | --                  |             | `readonly IPreviewData[]` | `undefined` |
+| Property          | Attribute           | Description | Type                   | Default     |
+| ----------------- | ------------------- | ----------- | ---------------------- | ----------- |
+| `objectToConsole` | `object-to-console` |             | `boolean`              | `false`     |
+| `previewList`     | --                  |             | `readonly IFileData[]` | `undefined` |
 
 
 ## Dependencies

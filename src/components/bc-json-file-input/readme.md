@@ -9,9 +9,21 @@
 </bc-json-file-input>
 ```
 
-#### Styling
+#### Button Styling
 
 The *slotted* element (`<button>` in the example above) is outside of the Shadow DOM and can be styled externally
+
+#### Global Css Variables
+
+The following CSS variabels can be overriden globally
+
+```css
+:root {
+    --bc-preview-background: #212020;
+    --bc-preview-color: #40c64c;
+    --bc-preview-font-family: sans-serif;
+}
+````
 
 <!-- Auto Generated Below -->
 
@@ -27,10 +39,10 @@ The *slotted* element (`<button>` in the example above) is outside of the Shadow
 
 ## Events
 
-| Event         | Description                                                | Type                                   |
-| ------------- | ---------------------------------------------------------- | -------------------------------------- |
-| `filesLoaded` | Event emitted when files have been loaded                  | `CustomEvent<File[]>`                  |
-| `filesRead`   | Event emitted when files have been read (using FileReader) | `CustomEvent<readonly IPreviewData[]>` |
+| Event         | Description                                                | Type                                |
+| ------------- | ---------------------------------------------------------- | ----------------------------------- |
+| `filesLoaded` | Event emitted when files have been loaded                  | `CustomEvent<File[]>`               |
+| `filesRead`   | Event emitted when files have been read (using FileReader) | `CustomEvent<readonly IFileData[]>` |
 
 
 ## Dependencies

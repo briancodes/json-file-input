@@ -1,6 +1,6 @@
 details {
     width: 100%;
-    font-family: sans-serif;
+    font-family: var(--bc-preview-font-family);
 }
 
 summary {
@@ -13,8 +13,8 @@ summary.error {
 }
 
 .preview-pane {
-    background-color: #212020;
-    color: #40c64c;
+    background-color: var(--bc-preview-background);
+    color: var(--bc-preview-color);
     white-space: pre;
     font-size: 0.9em;
     overflow-x: auto;
