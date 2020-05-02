@@ -22,6 +22,7 @@ The following CSS variabels can be overriden globally
     --bc-preview-background: #212020;
     --bc-preview-color: #40c64c;
     --bc-preview-font-family: sans-serif;
+    --bc-preview-error: #791313
 }
 ````
 

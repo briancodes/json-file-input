@@ -3,7 +3,6 @@ import { Config } from "@stencil/core";
 export const config: Config = {
     namespace: "json-file-input",
     taskQueue: "async",
-    globalStyle: "src/global/variables.css",
     outputTargets: [
         {
             type: "dist",
