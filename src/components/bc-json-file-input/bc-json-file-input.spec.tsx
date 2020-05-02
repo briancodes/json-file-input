@@ -1,5 +1,6 @@
 import { newSpecPage } from "@stencil/core/testing";
 import { createMockFileReader, generateFiles } from "../../utils/utils.spec";
+import { BcJsonPreview } from "../bc-json-preview/bc-json-preview";
 import { BcJsonFileInput, IFileData } from "./bc-json-file-input";
 
 const HTML_DEFAULT_SLOT = `
@@ -85,5 +86,47 @@ describe("bc-json-file-input", () => {
         });
 
         input.dispatchEvent(new Event("change"));
+    });
+
+    it("renders preview panels", async () => {
+        expect.assertions(3);
+
+        // Import BcJsonPreview also
+        const page = await newSpecPage({
+            components: [BcJsonFileInput, BcJsonPreview],
+            html: HTML_DEFAULT_SLOT,
+        });
+
+        const { root } = page;
+        const { shadowRoot } = root;
+
+        const input = shadowRoot.querySelector("input");
+        const files = generateFiles(2);
+
+        // synchronous mock with createMockFileReader(file, false)
+        (global as any).FileReader = createMockFileReader(files, false) as any;
+        input.files = files as any;
+
+        root.addEventListener("filesLoaded", (ev: CustomEvent<File[]>) => {
+            expect(ev.detail.length).toEqual(2);
+        });
+
+        root.addEventListener("filesRead", (ev: CustomEvent<IFileData[]>) => {
+            expect(ev.detail.length).toEqual(2);
+            console.log("files read");
+        });
+
+        input.dispatchEvent(new Event("change"));
+
+        // wait for preview panel update and root listeners to be handled
+        await page.waitForChanges();
+
+        const previewElement = shadowRoot.querySelector("bc-json-preview");
+        const previewShadow = previewElement.shadowRoot;
+
+        const detailsElements = previewShadow.querySelectorAll("details");
+        expect(detailsElements.length).toEqual(2);
+
+        console.log("fin");
     });
 });
