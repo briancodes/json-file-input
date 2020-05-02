@@ -5,8 +5,8 @@
  * It contains typing information for all components that exist in this project.
  */
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
-import { IPreviewData, } from "./components/bc-json-file-input/bc-json-file-input";
-import { IPreviewData as IPreviewData1, } from "./components/bc-json-file-input/bc-json-file-input";
+import { IFileData, } from "./components/bc-json-file-input/bc-json-file-input";
+import { IFileData as IFileData1, } from "./components/bc-json-file-input/bc-json-file-input";
 export namespace Components {
     interface BcJsonFileInput {
         "multiple": boolean;
@@ -15,7 +15,7 @@ export namespace Components {
     }
     interface BcJsonPreview {
         "objectToConsole": boolean;
-        "previewList": ReadonlyArray<IPreviewData>;
+        "previewList": ReadonlyArray<IFileData>;
     }
 }
 declare global {
@@ -48,15 +48,15 @@ declare namespace LocalJSX {
         "onFilesLoaded"?: (event: CustomEvent<File[]>) => void;
         /**
           * Event emitted when files have been read (using FileReader)
-          * @type {EventEmitter<IPreviewData[]>}
+          * @type {EventEmitter<IFileData[]>}
           * @memberof BcJsonFileInput
          */
-        "onFilesRead"?: (event: CustomEvent<ReadonlyArray<IPreviewData>>) => void;
+        "onFilesRead"?: (event: CustomEvent<ReadonlyArray<IFileData>>) => void;
         "previewJson"?: boolean;
     }
     interface BcJsonPreview {
         "objectToConsole"?: boolean;
-        "previewList"?: ReadonlyArray<IPreviewData>;
+        "previewList"?: ReadonlyArray<IFileData>;
     }
     interface IntrinsicElements {
         "bc-json-file-input": BcJsonFileInput;

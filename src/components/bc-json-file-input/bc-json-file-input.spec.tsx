@@ -1,6 +1,6 @@
 import { newSpecPage } from "@stencil/core/testing";
 import { createMockFileReader, generateFiles } from "../../utils/utils.spec";
-import { BcJsonFileInput, IPreviewData } from "./bc-json-file-input";
+import { BcJsonFileInput, IFileData } from "./bc-json-file-input";
 
 const HTML_DEFAULT_SLOT = `
     <bc-json-file-input multiple preview-json>                    
@@ -79,13 +79,10 @@ describe("bc-json-file-input", () => {
         });
 
         // Mocked reader is async, hence using done()
-        root.addEventListener(
-            "filesRead",
-            (ev: CustomEvent<IPreviewData[]>) => {
-                expect(ev.detail.length).toEqual(2);
-                done();
-            }
-        );
+        root.addEventListener("filesRead", (ev: CustomEvent<IFileData[]>) => {
+            expect(ev.detail.length).toEqual(2);
+            done();
+        });
 
         input.dispatchEvent(new Event("change"));
     });

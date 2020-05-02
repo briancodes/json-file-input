@@ -1,13 +1,13 @@
-import { IPreviewData } from "../components/bc-json-file-input/bc-json-file-input";
+import { IFileData } from "../components/bc-json-file-input/bc-json-file-input";
 
 export class JsonFileProcessor {
     private readonly JSON_FILE_TYPE = "application/json";
     private files: ReadonlyArray<File>;
-    private previewList: ReadonlyArray<IPreviewData>;
+    private previewList: ReadonlyArray<IFileData>;
 
     constructor() {}
 
-    process(files: File[]): Promise<ReadonlyArray<IPreviewData>> {
+    process(files: File[]): Promise<ReadonlyArray<IFileData>> {
         this.initFiles(files);
         return new Promise((resolve) => {
             // read files and async update the preview list
