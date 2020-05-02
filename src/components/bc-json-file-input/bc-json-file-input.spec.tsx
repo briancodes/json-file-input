@@ -88,6 +88,8 @@ describe("bc-json-file-input", () => {
         input.dispatchEvent(new Event("change"));
     });
 
+    // Testing the rendering of the preview panel here
+    // Should probably be in an e2e test - but
     it("renders preview panels", async () => {
         expect.assertions(3);
 
@@ -113,7 +115,6 @@ describe("bc-json-file-input", () => {
 
         root.addEventListener("filesRead", (ev: CustomEvent<IFileData[]>) => {
             expect(ev.detail.length).toEqual(2);
-            console.log("files read");
         });
 
         input.dispatchEvent(new Event("change"));
@@ -126,7 +127,5 @@ describe("bc-json-file-input", () => {
 
         const detailsElements = previewShadow.querySelectorAll("details");
         expect(detailsElements.length).toEqual(2);
-
-        console.log("fin");
     });
 });
