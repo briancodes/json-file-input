@@ -6,7 +6,7 @@ import {
     Prop,
     Watch,
 } from "@stencil/core";
-import { IPreviewData } from "../bc-json-file-input/bc-json-file-input";
+import { IFileData } from "../bc-json-file-input/bc-json-file-input";
 
 /*
     Notes:
@@ -21,7 +21,7 @@ import { IPreviewData } from "../bc-json-file-input/bc-json-file-input";
     shadow: true,
 })
 export class BcJsonPreview implements ComponentInterface {
-    @Prop() previewList: ReadonlyArray<IPreviewData>;
+    @Prop() previewList: ReadonlyArray<IFileData>;
 
     @Prop() objectToConsole: boolean = false;
 

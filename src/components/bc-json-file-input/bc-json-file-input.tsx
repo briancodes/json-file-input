@@ -23,7 +23,7 @@ import { JsonFileProcessor } from "../../utils/utils";
     - https://medium.com/stencil-tricks/a-practical-introduction-to-styling-a-shadow-dom-and-slots-879565a2f423
 */
 
-export interface IPreviewData {
+export interface IFileData {
     fileName: string;
     content: string;
     error: boolean;
@@ -47,7 +47,7 @@ export class BcJsonFileInput implements ComponentInterface {
 
     @State() files: File[];
 
-    @State() previewList: ReadonlyArray<IPreviewData>;
+    @State() previewList: ReadonlyArray<IFileData>;
 
     /**
      * Event emitted when files have been loaded
@@ -60,10 +60,10 @@ export class BcJsonFileInput implements ComponentInterface {
     /**
      * Event emitted when files have been read (using FileReader)
      *
-     * @type {EventEmitter<IPreviewData[]>}
+     * @type {EventEmitter<IFileData[]>}
      * @memberof BcJsonFileInput
      */
-    @Event() filesRead: EventEmitter<ReadonlyArray<IPreviewData>>;
+    @Event() filesRead: EventEmitter<ReadonlyArray<IFileData>>;
 
     private inputElement: HTMLInputElement;
 
@@ -89,7 +89,7 @@ export class BcJsonFileInput implements ComponentInterface {
             <Host>
                 <div class="click-container" onClick={this.handleButtonClick}>
                     <slot>
-                        <button>Upload File</button>
+                        <button>Upload Files</button>
                     </slot>
                 </div>
                 <input

@@ -27,7 +27,10 @@ export const generateFiles = (
     });
 };
 
-export const createMockFileReader = (files: FileWithResult[]) => {
+export const createMockFileReader = (
+    files: FileWithResult[],
+    isAsync = true
+) => {
     class MockFileReader {
         private callback: Function;
 
@@ -37,14 +40,18 @@ export const createMockFileReader = (files: FileWithResult[]) => {
 
         readAsText(file: File) {
             const targetFile = files.find((f) => f.name === file.name);
-            const result: Partial<ProgressEvent<FileReader>> = {
+            const progressEvent: Partial<ProgressEvent<FileReader>> = {
                 target: {
                     result: targetFile.result,
                 } as FileReader,
             };
-            setTimeout(() => {
-                this.callback(result);
-            });
+            if (isAsync) {
+                setTimeout(() => {
+                    this.callback(progressEvent);
+                });
+            } else {
+                this.callback(progressEvent);
+            }
         }
     }
 
