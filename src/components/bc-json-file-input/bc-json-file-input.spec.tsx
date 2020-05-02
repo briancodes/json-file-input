@@ -88,8 +88,6 @@ describe("bc-json-file-input", () => {
         input.dispatchEvent(new Event("change"));
     });
 
-    // Testing the rendering of the preview panel here
-    // Should probably be in an e2e test - but
     it("renders preview panels", async () => {
         expect.assertions(3);
 
