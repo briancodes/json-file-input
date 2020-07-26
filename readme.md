@@ -90,3 +90,12 @@ https://stenciljs.com/docs/decorators
 ## npm
 
 `npm publish --access=public`
+
+## Unit Test Notes
+
+- Create mocks using Jest support for `__mocks__` mocks folders at same level
+   - see https://stenciljs.com/docs/mocking
+
+Stencil's jest setup does not include jsdom. Stencil uses a slimmed down version of Puppeteer for unit tests - the window and document properties of which can be accessed via the page object returned from Stencil's newSpecPage()
+
+As some of my tests are running without newSpecPage I needed to use the global object instead e.g. global.FileReader = createMockFileReader(files)
